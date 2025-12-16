@@ -1,0 +1,28 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../libs/admin/feature-analytics"
+    },
+    {
+      "path": "../../libs/admin/feature-products"
+    },
+    {
+      "path": "../../libs/admin/feature-orders"
+    },
+    {
+      "path": "../../libs/admin/shared-ui"
+    },
+    {
+      "path": "../../libs/shared/test-utils"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ],
+  "extends": "../../tsconfig.base.json"
+}
