@@ -1,0 +1,85 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true
+    },
+    "build:prod": {
+      "dependsOn": ["^build:prod"],
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true
+    },
+    "docker:build": {
+      "dependsOn": ["^docker:build"],
+      "cache": true
+    },
+    "api:prune": {
+      "dependsOn": ["^api:prune"]
+    },
+    "test": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "test:coverage": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "test:ci": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "test:e2e": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "test:e2e:headed": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "test:e2e:ci": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "lint:fix": {
+      "cache": true
+    },
+    "@nx/vitest:test": {
+      "cache": true,
+      "inputs": ["default", "^default"]
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "vite:build",
+        "testTargetName": "vite:test",
+        "serveTargetName": "vite:serve",
+        "devTargetName": "vite:dev",
+        "previewTargetName": "vite:preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    }
+  ],
+  "nxCloudId": "699f130c0480ca28e13abfb5"
+}

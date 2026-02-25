@@ -4,12 +4,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../libs/shared/models"
-    },
-    {
-      "path": "../../libs/api/products"
-    },
-    {
       "path": "./tsconfig.app.json"
     },
     {

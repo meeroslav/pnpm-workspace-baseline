@@ -5,11 +5,7 @@
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "jsx": "react-jsx",
     "lib": ["dom"],
-    "types": [
-      "node",
-      "@org/typings",
-      "vite/client"
-    ],
+    "types": ["node", "@org/typings", "vite/client"],
     "rootDir": "src"
   },
   "exclude": [
@@ -34,6 +30,12 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
+      "path": "../../libs/shared/test-utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/shared/models/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/admin/feature-analytics/tsconfig.lib.json"
     },
     {
@@ -44,9 +46,6 @@
     },
     {
       "path": "../../libs/admin/shared-ui/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/shared/test-utils/tsconfig.lib.json"
     }
   ]
 }

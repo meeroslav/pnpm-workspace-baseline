@@ -40,7 +40,11 @@ export default [
   // React rules (applies where relevant)
   {
     files: ['**/*.{jsx,tsx}'],
-    plugins: { react: reactPlugin, 'react-hooks': reactHooks, 'jsx-a11y': jsxA11y },
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooks,
+      'jsx-a11y': jsxA11y,
+    },
     languageOptions: {
       parserOptions: { ecmaFeatures: { jsx: true } },
     },

@@ -6,10 +6,10 @@
     "@org/e2e-utils": "workspace:*"
   },
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test:e2e": "playwright test -c playwright.config.ts",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:ci": "playwright test --reporter=junit"
+    "lint": "nx eslint:lint",
+    "lint:fix": "nx eslint:lint --fix",
+    "test:e2e": "nx e2e -c playwright.config.ts",
+    "test:e2e:headed": "nx e2e --headed",
+    "test:e2e:ci": "nx e2e --reporter=junit"
   }
 }
