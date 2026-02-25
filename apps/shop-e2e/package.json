@@ -11,5 +11,11 @@
   },
   "devDependencies": {
     "@org/e2e-utils": "workspace:*"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@org/shop",
+      "@org/api"
+    ]
   }
 }

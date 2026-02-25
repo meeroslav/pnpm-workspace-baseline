@@ -11,5 +11,10 @@
     "test:e2e": "nx e2e -c playwright.config.ts",
     "test:e2e:headed": "nx e2e --headed",
     "test:e2e:ci": "nx e2e --reporter=junit"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@org/admin"
+    ]
   }
 }
