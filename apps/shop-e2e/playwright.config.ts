@@ -17,7 +17,7 @@ export default defineConfig({
   webServer: {
     // Pick the real command that serves/preview the shop app
     // Common Vite preview:
-    command: 'pnpm --filter @org/shop serve:preview',
+    command: 'nx serve:preview @org/shop',
     url: baseURL,
     reuseExistingServer: true,
 

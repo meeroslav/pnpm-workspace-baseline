@@ -11,63 +11,75 @@
       "outputs": ["{projectRoot}/dist"],
       "cache": true
     },
-    "docker:build": {
-      "dependsOn": ["^docker:build"],
-      "cache": true
+    "preview": {
+      "options": {
+        "args": ["--strictPort"]
+      }
     },
-    "api:prune": {
-      "dependsOn": ["^api:prune"]
+    "serve": {
+      "options": {
+        "args": ["--strictPort"]
+      }
     },
     "test": {
       "outputs": ["{projectRoot}/coverage"],
-      "cache": true
-    },
-    "test:coverage": {
-      "outputs": ["{projectRoot}/coverage"],
-      "cache": true
-    },
-    "test:ci": {
-      "outputs": ["{projectRoot}/coverage"],
-      "cache": true
+      "cache": true,
+      "configurations": {
+        "coverage": {
+          "args": ["--coverage"]
+        },
+        "watch": {
+          "args": ["--watch"]
+        },
+        "ci": {
+          "args": [
+            "--reporter=junit --outputFile=./test-results/junit/vitest.xml"
+          ]
+        }
+      }
     },
     "test:e2e": {
       "outputs": ["{projectRoot}/coverage"],
-      "cache": true
-    },
-    "test:e2e:headed": {
-      "outputs": ["{projectRoot}/coverage"],
-      "cache": true
-    },
-    "test:e2e:ci": {
-      "outputs": ["{projectRoot}/coverage"],
-      "cache": true
+      "cache": true,
+      "configurations": {
+        "headed": {
+          "args": ["--headed"]
+        },
+        "ci": {
+          "args": ["--reporter=junit"]
+        }
+      }
     },
     "lint": {
-      "cache": true
-    },
-    "lint:fix": {
-      "cache": true
-    },
-    "@nx/vitest:test": {
       "cache": true,
-      "inputs": ["default", "^default"]
+      "configurations": {
+        "fix": {
+          "args": ["--fix"]
+        }
+      }
     }
   },
   "plugins": [
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
-        "targetName": "eslint:lint"
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
       }
     },
     {
       "plugin": "@nx/vite/plugin",
       "options": {
-        "buildTargetName": "vite:build",
-        "testTargetName": "vite:test",
-        "serveTargetName": "vite:serve",
-        "devTargetName": "vite:dev",
-        "previewTargetName": "vite:preview",
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "serveTargetName": "serve",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
         "serveStaticTargetName": "serve-static",
         "typecheckTargetName": "typecheck",
         "buildDepsTargetName": "build-deps",
@@ -77,7 +89,7 @@
     {
       "plugin": "@nx/playwright/plugin",
       "options": {
-        "targetName": "e2e"
+        "targetName": "test:e2e"
       }
     }
   ],

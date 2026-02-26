@@ -16,12 +16,8 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.lib.json",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "pnpm run test --ci --passWithNoTests",
-    "lint": "nx eslint:lint",
-    "lint:fix": "nx eslint:lint --fix"
+    "test": "test --passWithNoTests",
+    "test:ci": "pnpm run test --ci --passWithNoTests"
   },
   "dependencies": {
     "tslib": "^2.3.0"

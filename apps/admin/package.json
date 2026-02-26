@@ -2,17 +2,6 @@
   "name": "@org/admin",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "dev": "nx vite:serve --port 4200 --strictPort",
-    "build": "nx vite:build",
-    "preview": "nx vite:preview --port 4200 --strictPort",
-    "test": "nx vite:test",
-    "test:watch": "nx vite:test --watch",
-    "test:coverage": "nx vite:test run --coverage",
-    "test:ci": "nx vite:test run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
-    "lint": "nx eslint:lint",
-    "lint:fix": "nx eslint:lint --fix"
-  },
   "devDependencies": {
     "@org/admin-shared-ui": "workspace:*",
     "@org/admin-feature-orders": "workspace:*",

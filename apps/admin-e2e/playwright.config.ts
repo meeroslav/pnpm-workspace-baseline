@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4201';
 
 export default defineConfig({
   // Nx preset used to point at ./src
@@ -17,7 +17,7 @@ export default defineConfig({
   webServer: {
     // Pick the real command that serves/preview the shop app
     // Common Vite preview:
-    command: 'pnpm --filter @org/admin preview --port 4200',
+    command: 'nx preview @org/admin',
     url: baseURL,
     reuseExistingServer: true,
 

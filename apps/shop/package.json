@@ -3,17 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "nx vite:serve --port 4200 --strictPort",
-    "serve": "concurrently -k \"pnpm --filter @org/api serve:dev\" \"pnpm --filter @org/shop dev\"",
-    "build": "nx vite:build",
-    "preview": "nx vite:preview --port 4200 --strictPort",
-    "serve:preview": "concurrently -k \"pnpm --filter @org/api serve:dev\" \"pnpm --filter @org/shop preview\"",
-    "test": "nx vite:test",
-    "test:watch": "nx vite:test --watch",
-    "test:coverage": "nx vite:test run --coverage",
-    "test:ci": "nx vite:test run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
-    "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
-    "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix"
+    "dev": "nx serve",
+    "serve": "concurrently -k \"nx serve:dev @org/api\" \"nx dev @org/shop\"",
+    "serve:preview": "concurrently -k \"nx serve:dev @org/api\" \"nx preview @org/shop\""
   },
   "nx": {
     "tags": [
