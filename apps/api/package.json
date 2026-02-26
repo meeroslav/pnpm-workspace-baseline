@@ -8,14 +8,29 @@
     "package.json"
   ],
   "scripts": {
-    "build": "pnpm --filter @org/api-products build && node ../../tools/build-api.mjs",
-    "build:prod": "NODE_ENV=production pnpm build",
-    "serve:dev": "pnpm build && node dist/main.js",
-    "serve:prod": "pnpm build:prod && node dist/main.js",
+    "build": "node ../../tools/build-api.mjs",
+    "serve:dev": "node dist/main.js",
+    "serve:prod": "node dist/main.js",
     "test": "jest --passWithNoTests",
     "docker:build": "pnpm run api:prune && docker build -f apps/api/Dockerfile apps/api/dist/pruned -t org-api:local",
-    "api:prune": "rm -rf dist/pruned && pnpm build && pnpm --filter @org/api --prod deploy dist/pruned",
+    "api:prune": "rm -rf dist/pruned && nx build && pnpm --filter @org/api --prod deploy dist/pruned",
     "test:ci": "jest --ci --passWithNoTests"
+  },
+  "nx": {
+    "targets": {
+      "serve:dev": {
+        "continuous": true,
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "serve:prod": {
+        "continuous": true,
+        "dependsOn": [
+          "build:prod"
+        ]
+      }
+    }
   },
   "dependencies": {
     "@org/api-products": "workspace:*",

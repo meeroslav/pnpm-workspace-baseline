@@ -17,7 +17,7 @@ export default defineConfig({
   webServer: {
     // Pick the real command that serves/preview the shop app
     // Common Vite preview:
-    command: 'nx preview @org/admin',
+    command: 'nx run @org/admin:preview',
     url: baseURL,
     reuseExistingServer: true,
 

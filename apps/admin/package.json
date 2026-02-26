@@ -9,5 +9,23 @@
     "@org/admin-feature-analytics": "workspace:*",
     "@org/models": "workspace:*",
     "@org/shared-test-utils": "workspace:*"
+  },
+  "nx": {
+    "tags": [
+      "scope:shop"
+    ],
+    "targets": {
+      "preview": {
+        "options": {
+          "args": [
+            "--port",
+            "4201"
+          ]
+        },
+        "dependsOn": [
+          "build"
+        ]
+      }
+    }
   }
 }

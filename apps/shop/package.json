@@ -2,11 +2,6 @@
   "name": "@org/shop",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "dev": "nx serve",
-    "serve": "concurrently -k \"nx serve:dev @org/api\" \"nx dev @org/shop\"",
-    "serve:preview": "concurrently -k \"nx serve:dev @org/api\" \"nx preview @org/shop\""
-  },
   "nx": {
     "tags": [
       "scope:shop"
@@ -14,13 +9,24 @@
     "targets": {
       "serve": {
         "dependsOn": [
-          "@org/api:serve"
+          "@org/api:serve:dev"
+        ]
+      },
+      "dev": {
+        "dependsOn": [
+          "@org/api:serve:dev"
         ]
       },
       "preview": {
+        "options": {
+          "args": [
+            "--port",
+            "4200"
+          ]
+        },
         "dependsOn": [
           "build",
-          "@org/api:serve"
+          "@org/api:serve:dev"
         ]
       }
     }
