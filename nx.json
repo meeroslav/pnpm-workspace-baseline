@@ -62,6 +62,11 @@
         }
       }
     },
+    "test:e2e-ci--**/**": {
+      "outputs": ["{projectRoot}/coverage"],
+      "cache": true,
+      "inputs": ["default", "^production"]
+    },
     "lint": {
       "cache": true,
       "inputs": ["default"],
