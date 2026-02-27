@@ -1,0 +1,123 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "concurrency": "3",
+  "ui": "tui",
+  "globalDependencies": [".github/workflows/ci.yml"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!eslint.config.mjs",
+        "!**/*.spec.ts",
+        "!**/*.test.ts",
+        "!**/*.spec.tsx",
+        "!**/*.test.tsx",
+        "!**/*.spec.js",
+        "!**/*.test.js",
+        "!**/*.spec.jsx",
+        "!**/*.test.jsx",
+        "!tsconfig.spec.json",
+        "!vitest.config.ts",
+        "!jest.config.js"
+      ]
+    },
+    "build:prod": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!eslint.config.mjs",
+        "!**/*.spec.ts",
+        "!**/*.test.ts",
+        "!**/*.spec.tsx",
+        "!**/*.test.tsx",
+        "!**/*.spec.js",
+        "!**/*.test.js",
+        "!**/*.spec.jsx",
+        "!**/*.test.jsx",
+        "!tsconfig.spec.json",
+        "!vitest.config.ts",
+        "!jest.config.js"
+      ]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!eslint.config.mjs",
+        "!**/*.spec.ts",
+        "!**/*.test.ts",
+        "!**/*.spec.tsx",
+        "!**/*.test.tsx",
+        "!**/*.spec.js",
+        "!**/*.test.js",
+        "!**/*.spec.jsx",
+        "!**/*.test.jsx",
+        "!tsconfig.spec.json",
+        "!vitest.config.ts",
+        "!jest.config.js"
+      ]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "lint": {},
+    "lint:fix": {},
+    "test": {},
+    "api:prune": {
+      "cache": false
+    },
+    "test:watch": {
+      "persistent": true,
+      "cache": false
+    },
+    "test:coverage": {},
+    "test:ci": {},
+    "test:e2e": {},
+    "test:e2e:headed": {},
+    "test:e2e:ci": {},
+    "preview": {
+      "persistent": true,
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "serve:preview": {
+      "persistent": true,
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "serve:dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "serve:prod": {
+      "persistent": true,
+      "cache": false
+    },
+    "serve:dev:watch": {
+      "persistent": true,
+      "cache": false
+    },
+    "@org/shop-e2e#test:e2e": {
+      "dependsOn": ["@org/shop#build"]
+    },
+    "@org/shop-e2e#test:e2e:headed": {
+      "dependsOn": ["@org/shop#build"]
+    },
+    "@org/shop-e2e#test:e2e:ci": {
+      "dependsOn": ["@org/shop#build"]
+    },
+    "@org/admin-e2e#test:e2e": {
+      "dependsOn": ["@org/admin#build"]
+    },
+    "@org/admin-e2e#test:e2e:headed": {
+      "dependsOn": ["@org/admin#build"]
+    },
+    "@org/admin-e2e#test:e2e:ci": {
+      "dependsOn": ["@org/admin#build"]
+    }
+  }
+}

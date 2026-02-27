@@ -1,0 +1,142 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+jobs:
+  setup-dte:
+    runs-on: ubuntu-latest
+    outputs:
+      bucket_1: ${{ steps.calculate-affected-tasks.outputs.bucket_1 }}
+      bucket_2: ${{ steps.calculate-affected-tasks.outputs.bucket_2 }}
+      bucket_3: ${{ steps.calculate-affected-tasks.outputs.bucket_3 }}
+      bucket_4: ${{ steps.calculate-affected-tasks.outputs.bucket_4 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/github-script@v8
+        id: calculate-affected-tasks
+        with:
+          script: |
+            const { execSync } = require('node:child_process');
+
+            const parseTurboJson = (raw) => {
+              try {
+                return JSON.parse(raw);
+              } catch {
+                throw new Error('Could not find JSON object in Turbo output.');
+              }
+            };
+
+            try {
+              const command =
+                'pnpm turbo run lint test build test:e2e --affected --dry=json';
+              const stdout = execSync(command, {
+                encoding: 'utf8',
+                stdio: ['ignore', 'pipe', 'pipe'],
+              });
+
+              const dryRun = parseTurboJson(stdout);
+              const taskIds = Array.isArray(dryRun?.tasks)
+                ? dryRun.tasks
+                    .filter((task) => task?.taskId && task?.command !== '<NONEXISTENT>')
+                    .map((task) => task.taskId)
+                : [];
+
+              // Keep build work first, then distribute round-robin across 4 buckets.
+              const prioritizedTaskIds = [...new Set(taskIds)].sort((a, b) => {
+                const aIsBuild = a.endsWith('#build');
+                const bIsBuild = b.endsWith('#build');
+                if (aIsBuild !== bIsBuild) {
+                  return aIsBuild ? -1 : 1;
+                }
+                return a.localeCompare(b);
+              });
+
+              const bucketCount = 4;
+              const buckets = Array.from({ length: bucketCount }, () => []);
+              prioritizedTaskIds.forEach((taskId, index) => {
+                buckets[index % bucketCount].push(taskId);
+              });
+
+              core.setOutput('task_count', prioritizedTaskIds.length);
+              core.setOutput('all_task_ids', JSON.stringify(prioritizedTaskIds));
+              buckets.forEach((bucket, index) => {
+                core.setOutput(`bucket_${index + 1}`, JSON.stringify(bucket));
+                console.log(
+                  `bucket_${index + 1} (${bucket.length} tasks): ${bucket.join(', ')}`
+                );
+              });
+            } catch (error) {
+              core.setFailed(
+                `Failed to calculate affected Turbo tasks: ${
+                  error instanceof Error ? error.message : String(error)
+                }`
+              );
+            }
+
+  agents:
+    name: Agent ${{ matrix.agent }}
+    runs-on: ubuntu-latest
+    needs: setup-dte
+    strategy:
+      matrix:
+        # Add more agents here as your repository expands
+        agent: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps
+
+      - name: Run turbo tasks for agent ${{ matrix.agent }}
+        run: |
+          outputs_json='${{ toJson(needs.setup-dte.outputs) }}'
+          tasks_json=$(echo "$outputs_json" | jq -c --arg key "bucket_${{ matrix.agent }}" '.[$key]')
+          tasks=$(echo "$tasks_json" | jq -r 'fromjson | .[]')
+          pnpm turbo run $tasks --continue=always

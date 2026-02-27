@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "vite --port 4200 --strictPort",
+    "dev": "vite --port 4201 --strictPort",
     "build": "vite build",
-    "preview": "vite preview --port 4200 --strictPort",
+    "preview": "vite preview --port 4201 --strictPort",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage",

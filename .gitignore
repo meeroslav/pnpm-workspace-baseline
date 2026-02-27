@@ -48,3 +48,5 @@ vitest.config.*.timestamp*
 test-output
 .cache/
 test-results/
+
+.turbo

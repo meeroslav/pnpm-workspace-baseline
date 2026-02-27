@@ -15,24 +15,6 @@
     "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix"
   },
-  "nx": {
-    "tags": [
-      "scope:shop"
-    ],
-    "targets": {
-      "serve": {
-        "dependsOn": [
-          "@org/api:serve"
-        ]
-      },
-      "preview": {
-        "dependsOn": [
-          "build",
-          "@org/api:serve"
-        ]
-      }
-    }
-  },
   "devDependencies": {
     "@org/feature-manufacturer": "workspace:*",
     "@org/models": "workspace:*",
