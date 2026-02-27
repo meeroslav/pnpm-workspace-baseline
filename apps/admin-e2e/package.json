@@ -5,11 +5,9 @@
   "devDependencies": {
     "@org/e2e-utils": "workspace:*"
   },
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test:e2e": "playwright test -c playwright.config.ts",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:ci": "playwright test --reporter=junit"
+  "nx": {
+    "implicitDependencies": [
+      "@org/admin"
+    ]
   }
 }

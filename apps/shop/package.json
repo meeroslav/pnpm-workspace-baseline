@@ -2,19 +2,6 @@
   "name": "@org/shop",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "dev": "vite --port 4200 --strictPort",
-    "serve": "concurrently -k \"pnpm --filter @org/api serve:dev\" \"pnpm --filter @org/shop dev\"",
-    "build": "vite build",
-    "preview": "vite preview --port 4200 --strictPort",
-    "serve:preview": "concurrently -k \"pnpm --filter @org/api serve:dev\" \"pnpm --filter @org/shop preview\"",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
-    "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
-    "lint:fix": "eslint './src/**/*.{ts,tsx,js,jsx}' --fix"
-  },
   "nx": {
     "tags": [
       "scope:shop"
@@ -22,13 +9,24 @@
     "targets": {
       "serve": {
         "dependsOn": [
-          "@org/api:serve"
+          "@org/api:serve:dev"
+        ]
+      },
+      "dev": {
+        "dependsOn": [
+          "@org/api:serve:dev"
         ]
       },
       "preview": {
+        "options": {
+          "args": [
+            "--port",
+            "4200"
+          ]
+        },
         "dependsOn": [
           "build",
-          "@org/api:serve"
+          "@org/api:serve:dev"
         ]
       }
     }

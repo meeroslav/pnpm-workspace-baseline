@@ -11,14 +11,6 @@
     },
     "./package.json": "./package.json"
   },
-      "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  },
   "devDependencies": {
     "@org/models": "workspace:*",
     "@org/shop-data": "workspace:*",

@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    env:
+      NX_DAEMON: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - uses: nrwl/nx-set-shas@v4
+
+      # Uncomment this line to enable task distribution
+      - run: pnpm dlx nx start-ci-run --distribute-on="manual" --stop-agents-after="test:e2e-ci"
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps
+
+      # When you enable task distribution, run the e2e-ci task instead of e2e
+      - run: pnpm exec nx affected -t lint test build test:e2e-ci
+
+  agents:
+    name: Agent ${{ matrix.agent }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Add more agents here as your repository expands
+        agent: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 1
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps
+
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: pnpm exec nx start-agent
+        env:
+          NX_AGENT_NAME: ${{ matrix.agent }}

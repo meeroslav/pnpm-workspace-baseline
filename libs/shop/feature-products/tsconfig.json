@@ -3,18 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../shared/test-utils"
-    },
-    {
-      "path": "../shared-ui"
-    },
-    {
-      "path": "../data"
-    },
-    {
-      "path": "../../shared/models"
-    },
-    {
       "path": "./tsconfig.lib.json"
     },
     {
