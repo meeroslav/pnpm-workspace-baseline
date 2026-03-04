@@ -12,12 +12,12 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "test": "nx vite:test",
+    "test:watch": "nx vite:test --watch",
+    "test:coverage": "nx vite:test run --coverage",
+    "test:ci": "nx vite:test run --reporter=default --reporter=junit --outputFile=./test-results/junit/vitest.xml",
+    "lint": "nx eslint:lint",
+    "lint:fix": "nx eslint:lint --fix"
   },
   "devDependencies": {
     "@org/shared-test-utils": "workspace:*"
