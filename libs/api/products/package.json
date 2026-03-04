@@ -20,8 +20,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "pnpm run test --ci --passWithNoTests",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "nx eslint:lint",
+    "lint:fix": "nx eslint:lint --fix"
   },
   "dependencies": {
     "tslib": "^2.3.0"
